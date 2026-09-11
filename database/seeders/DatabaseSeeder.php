@@ -14,12 +14,19 @@ class DatabaseSeeder extends Seeder
      * Seed the application's database.
      */
     public function run(): void
-    {
-        // User::factory(10)->create();
+{
+    \App\Models\User::create([
+        'name' => 'Admin Toko',
+        'email' => 'admin@fpwlaravel.test',
+        'password' => \Illuminate\Support\Facades\Hash::make('password'),
+        'role' => 'admin',
+    ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-    }
+    \App\Models\User::create([
+        'name' => 'Kasir Rina',
+        'email' => 'kasir@fpwlaravel.test',
+        'password' => \Illuminate\Support\Facades\Hash::make('password'),
+        'role' => 'kasir',
+    ]);
+}
 }
