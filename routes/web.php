@@ -38,3 +38,25 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         return 'Halaman kelola akun kasir (khusus admin)';
     })->name('users.index');
 });
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/products', function () {
+        return 'Halaman kelola produk (khusus admin)';
+    })->name('products.index');
+
+    Route::get('/reports/sales', function () {
+        return 'Halaman laporan penjualan (khusus admin)';
+    })->name('report.sales');
+});
+
+Route::middleware(['auth', 'role:admin,kasir'])->group(function () {
+    Route::get('/pos', function () {
+        return 'Halaman transaksi kasir';
+    })->name('pos.index');
+});
+
+Route::middleware(['auth', 'role:kasir'])->group(function () {
+    Route::get('/pos/history', function () {
+        return 'Halaman riwayat transaksi saya (khusus kasir)';
+    })->name('pos.history');
+});
