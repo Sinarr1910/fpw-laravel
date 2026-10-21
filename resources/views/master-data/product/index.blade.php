@@ -9,45 +9,56 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
-            @if (session('success'))
-            <div class="p-3 bg-green-100 text-green-700 rounded-md text-sm">
-                {{ session('success') }}
-            </div>
-            @endif
-
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-card>
-                <table class="w-full text-sm text-left">
-                    <thead class="text-gray-500 border-b">
+                @if (session('success'))
+                <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-md text-sm">
+                    {{ session('success') }}
+                </div>
+                @endif
+
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
                         <tr>
-                            <th class="py-2">Kode</th>
-                            <th class="py-2">Nama</th>
-                            <th class="py-2">Kategori</th>
-                            <th class="py-2">Satuan</th>
-                            <th class="py-2">Harga</th>
-                            <th class="py-2">Stok</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">Kode</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">Nama Produk</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">Kategori</th>
+                            <th class="px-4 py-2 text-right text-xs font-medium text-gray-500">Harga</th>
+                            <th class="px-4 py-2 text-center text-xs font-medium text-gray-500">Stok</th>
+                            <th class="px-4 py-2 text-center text-xs font-medium text-gray-500">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="divide-y divide-gray-100">
                         @forelse ($products as $product)
-                        <tr class="border-b">
-                            <td class="py-2">{{ $product->code ?? '-' }}</td>
-                            <td class="py-2">{{ $product->name }}</td>
-                            <td class="py-2">{{ $product->category->name }}</td>
-                            <td class="py-2">{{ $product->unit }}</td>
-                            <td class="py-2">{{ $product->formatted_price }}</td>
-                            <td class="py-2">
+                        <tr class="@if ($product->stock == 0) bg-red-50 @elseif ($product->stock < 10) bg-yellow-50 @endif">
+                            <td class="px-4 py-2 text-sm">{{ $product->code }}</td>
+                            <td class="px-4 py-2 text-sm">{{ $product->name }}</td>
+                            <td class="px-4 py-2 text-sm">{{ $product->category->name }}</td>
+                            <td class="px-4 py-2 text-sm text-right">
+                                Rp{{ number_format($product->price, 0, ',', '.') }}
+                            </td>
+                            <td class="px-4 py-2 text-sm text-center font-semibold">
                                 {{ $product->stock }}
-                                <x-badge :stock="$product->stock" class="ml-2" />
+                                @if ($product->stock == 0)
+                                <span class="text-red-600 text-xs block">Habis</span>
+                                @elseif ($product->stock < 10)
+                                    <span class="text-yellow-600 text-xs block">Menipis</span>
+                                    @endif
+                            </td>
+                            <td class="px-4 py-2 text-sm text-center space-x-2">
+                                <a href="{{ route('products.edit', $product) }}" class="text-indigo-600">Ubah</a>
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" class="py-4 text-center text-gray-500">Belum ada data produk.</td>
+                            <td colspan="6" class="px-4 py-6 text-center text-gray-500">
+                                Belum ada data produk.
+                            </td>
                         </tr>
                         @endforelse
                     </tbody>
                 </table>
+
                 <div class="mt-4">
                     {{ $products->links() }}
                 </div>
