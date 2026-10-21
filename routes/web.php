@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,21 +30,12 @@ Route::get('/dashboard', function () {
 })->middleware('auth')->name('dashboard');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/categories', function () {
-        return 'Halaman kelola kategori (khusus admin)';
-    })->name('categories.index');
-});
+    Route::resource('categories', CategoryController::class);
+    Route::resource('products', ProductController::class);
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/users', function () {
         return 'Halaman kelola akun kasir (khusus admin)';
     })->name('users.index');
-});
-
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/products', function () {
-        return 'Halaman kelola produk (khusus admin)';
-    })->name('products.index');
 
     Route::get('/reports/sales', function () {
         return 'Halaman laporan penjualan (khusus admin)';

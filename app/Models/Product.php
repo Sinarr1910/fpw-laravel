@@ -12,12 +12,14 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'category_id',
-        'supplier_id',
-        'name',
-        'price',
-        'stock',
-        'image',
+    'category_id',
+    'supplier_id',
+    'code',
+    'name',
+    'unit',
+    'price',
+    'stock',
+    'image',
     ];
 
     public function category(): BelongsTo
