@@ -6,20 +6,21 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
     use HasFactory;
-
+    use SoftDeletes;
     protected $fillable = [
-    'category_id',
-    'supplier_id',
-    'code',
-    'name',
-    'unit',
-    'price',
-    'stock',
-    'image',
+        'category_id',
+        'supplier_id',
+        'code',
+        'name',
+        'unit',
+        'price',
+        'stock',
+        'image',
     ];
 
     public function category(): BelongsTo
@@ -35,7 +36,7 @@ class Product extends Model
     protected function formattedPrice(): Attribute
     {
         return Attribute::make(
-            get: fn () => 'Rp' . number_format($this->price, 0, ',', '.'),
+            get: fn() => 'Rp' . number_format($this->price, 0, ',', '.'),
         );
     }
 }
