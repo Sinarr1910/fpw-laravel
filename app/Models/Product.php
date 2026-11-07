@@ -28,6 +28,11 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function transactionDetails()
+    {
+        return $this->hasMany(TransactionDetail::class);
+    }
+
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);

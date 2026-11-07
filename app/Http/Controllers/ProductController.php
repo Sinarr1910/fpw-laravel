@@ -44,6 +44,21 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Produk berhasil ditambahkan.');
     }
 
+    public function show(Product $product)
+    {
+        $product->load(['transactionDetails.transaction']);
+
+        $totalTerjual = $product->transactionDetails->sum('qty');
+
+        $riwayat = $product->transactionDetails()
+            ->with('transaction')
+            ->latest()
+            ->take(10)
+            ->get();
+
+        return view('master-data.product.show', compact('product', 'totalTerjual', 'riwayat'));
+    }
+
     public function edit(Product $product)
     {
         $categories = Category::orderBy('name')->get();

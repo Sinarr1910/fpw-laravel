@@ -17,7 +17,7 @@
                 </div>
                 @endif
 
-                <!-- Tambahan Form Pencarian dan Filter Kategori -->
+                <!-- Form Pencarian dan Filter Kategori -->
                 <form method="GET" action="{{ route('products.index') }}" class="flex gap-3 mb-4">
                     <input type="text" name="search" value="{{ request('search') }}"
                         placeholder="Cari nama atau kode produk..."
@@ -66,6 +66,7 @@
                             </td>
 
                             <td class="px-4 py-2 text-sm text-center space-x-2">
+                                <a href="{{ route('products.show', $product) }}" class="text-gray-600 hover:text-gray-900">Detail</a>
                                 <a href="{{ route('products.edit', $product) }}" class="text-indigo-600">Ubah</a>
 
                                 <form action="{{ route('products.destroy', $product) }}" method="POST"
