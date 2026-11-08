@@ -11,11 +11,13 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('invoice_number')->unique();
-            $table->integer('total_amount');
+            $table->foreignId('user_id')->constrained('users'); // Relasi ke kasir yang login
+            $table->integer('total_price');                     // Mengganti total_amount agar sesuai dengan controller
+            $table->integer('pay');                             // Uang yang dibayarkan
+            $table->integer('change');                          // Uang kembalian
             $table->timestamps();
         });
     }
-
 
     public function down(): void
     {
