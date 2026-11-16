@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PosController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,16 +32,15 @@ Route::get('/dashboard', function () {
 })->middleware('auth')->name('dashboard');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/reports/sales', [ReportController::class, 'sales'])->name('report.sales');
+    Route::get('/reports/sales/export', [ReportController::class, 'export'])->name('report.export');
+
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
 
     Route::get('/users', function () {
         return 'Halaman kelola akun kasir (khusus admin)';
     })->name('users.index');
-
-    Route::get('/reports/sales', function () {
-        return 'Halaman laporan penjualan (khusus admin)';
-    })->name('report.sales');
 });
 
 Route::middleware(['auth', 'role:admin,kasir'])->group(function () {
