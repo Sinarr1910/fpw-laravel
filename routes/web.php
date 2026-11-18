@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,9 +28,10 @@ Route::post('/logout', [LoginController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
+// RUTE DASHBOARD SUDAH DIPERBARUI MENGARAH KE CONTROLLER
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware('auth')
+    ->name('dashboard');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/reports/sales', [ReportController::class, 'sales'])->name('report.sales');
